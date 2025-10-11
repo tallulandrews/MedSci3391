@@ -1,0 +1,49 @@
+"sample","brain_weight_grams","meninges","white_matter","grey","frontal_lobe","temporal_lobe","parietal_lobe","occipital_lobe","midbrain_pons_medulla","cerebellum","basal_ganglion","cingulate_gyrus","thalamus","hypothalamus","hippocampus","spinal_cord","optic_nerve"
+"MS MS542",1042," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes"," No"," Yes"," Yes",NA,NA
+"MS MS129",1147," No"," Yes",NA," No",NA," No"," Yes"," No"," No"," No",NA," No",NA," Yes",NA,NA
+"MS MS403",893,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No",NA," Yes"," Yes",NA," Yes"," Yes"," Yes"
+"MS MS547",1374," No"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," No"," Yes"," No"," Yes"," Yes"," Yes",NA
+"MS MS497",1011,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," Yes"," Yes"," Yes",NA," Yes",NA,NA
+"MS MS098",1280," No"," Yes"," Yes",NA,NA," Yes"," Yes"," Yes"," Yes"," Yes",NA,NA,NA," Yes",NA,NA
+"MS MS527",1070," No"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes"," Yes",NA," Yes",NA," Yes"," Yes"," Yes",NA
+"MS MS352",1212," No"," Yes"," Yes"," Yes",NA,NA," Yes"," Yes"," Yes",NA,NA," Yes"," No"," Yes"," Yes"," Yes"
+"MS MS383",1383," No"," Yes"," Yes",NA," Yes",NA," Yes"," Yes"," No",NA,NA," Yes"," Yes",NA," Yes"," Yes"
+"MS MS430",1285,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," No"," No"," Yes"," No"," No"," Yes"," Yes",NA
+"MS MS086",1100," No"," No",NA," Yes",NA," Yes"," Yes"," Yes",NA,NA,NA," Yes",NA," Yes"," Yes"," Yes"
+"MS MS499",973," No"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes",NA
+"MS MS061",973," No"," Yes",NA,NA,NA,NA," Yes",NA,NA,NA,NA,NA,NA," Yes",NA,NA
+"MS MS586",1289," No"," Yes"," Yes"," No"," Yes"," No"," Yes"," Yes"," Yes"," No"," Yes"," No"," No",NA," Yes"," Yes"
+"MS MS049",1525," No"," Yes"," Yes"," Yes",NA,NA," Yes",NA,NA,NA,NA,NA,NA," No",NA," Yes"
+"MS MS576",1296,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," Yes"," Yes"," No",NA," Yes"," Yes"," Yes"
+"MS MS510",1097," No"," Yes"," Yes"," Yes"," Yes"," No"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes"," Yes"
+"MS MS274",1140," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes"," No"," Yes",NA,NA," No"," No"," Yes"," Yes",NA
+"MS MS060",1360," No"," Yes",NA," Yes",NA,NA,NA,NA,NA,NA,NA,NA,NA," No"," Yes",NA
+"MS MS102",1258," Yes"," Yes"," Yes",NA,NA," Yes"," Yes"," Yes"," Yes",NA,NA," Yes"," Yes",NA," Yes",NA
+"MS MS301",1024," No"," Yes"," Yes",NA," No"," No"," Yes"," Yes"," Yes",NA,NA,NA," Yes"," No"," Yes"," Yes"
+"MS MS263",1247," No"," Yes",NA,NA," No"," No"," No"," No"," No",NA,NA," No",NA," Yes"," Yes",NA
+"MS MS341",1071,NA," Yes"," Yes"," Yes"," No",NA," Yes"," Yes"," No",NA,NA," Yes"," No"," Yes"," Yes"," Yes"
+"MS MS107",1273," Yes"," Yes",NA," Yes",NA," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes",NA," Yes"," Yes",NA
+"MS MS070",1206," Yes"," Yes",NA," Yes",NA," Yes",NA,NA," Yes",NA,NA,NA,NA,NA," Yes",NA
+"MS MS444",1360," No"," Yes"," Yes"," No"," Yes"," No"," Yes"," Yes"," No",NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"
+"MS MS125",1005," Yes"," Yes"," Yes",NA," No"," Yes"," Yes"," No"," Yes",NA,NA," No"," No"," Yes"," No",NA
+"MS MS216",1220," Yes"," Yes"," Yes"," Yes"," No"," No"," Yes"," Yes"," Yes",NA,NA," Yes"," Yes"," Yes"," No",NA
+"MS MS483",1039," Yes"," Yes"," Yes"," No"," Yes",NA," Yes"," Yes"," Yes",NA," Yes"," Yes"," Yes"," No"," Yes",NA
+"MS MS549",1123,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA
+"MS MS422",1384,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," No",NA,NA," Yes"," Yes"," Yes"," Yes"," Yes"
+"MS MS094",1229," No"," Yes",NA," Yes",NA,NA,NA," Yes"," Yes",NA,NA," Yes",NA," Yes"," Yes",NA
+"MS MS448",1240," No"," Yes",NA," No",NA," No"," Yes"," Yes"," Yes"," Yes"," No"," No"," No"," Yes"," Yes",NA
+"MS MS485",1109,NA," Yes",NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes",NA
+"MS MS406",1051," No"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA," Yes"," Yes",NA," Yes"," Yes"," Yes"
+"MS MS517",1318," No"," Yes"," Yes"," No"," No"," No"," Yes"," No"," No",NA," Yes"," No"," No"," Yes"," Yes"," Yes"
+"MS MS264",1300," Yes"," Yes"," Yes"," No"," No"," No"," No"," Yes"," Yes",NA,NA," No"," No"," Yes",NA,NA
+"MS MS390",1224," No"," No",NA," No"," No",NA," No"," Yes"," Yes"," Yes"," No"," No"," No"," No"," Yes"," No"
+"MS MS088",1185," No"," Yes",NA,NA,NA,NA," Yes"," Yes"," No",NA,NA,NA,NA," No"," Yes",NA
+"MS MS313",1266," Yes"," Yes",NA,NA," Yes",NA," Yes"," Yes"," Yes",NA,NA," No"," No"," No"," Yes"," Yes"
+"MS MS050",1175," No"," Yes",NA," Yes"," Yes"," Yes"," No"," No",NA,NA,NA,NA,NA," Yes"," Yes",NA
+"MS MS407",1230," No"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA,NA," Yes"," Yes"," Yes",NA," Yes"
+"MS MS103",1183," No"," Yes"," Yes"," Yes",NA," Yes"," Yes"," Yes"," No",NA,NA," Yes"," Yes",NA," Yes",NA
+"MS MS528",1137,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA
+"MS MS470",1109," No"," Yes"," Yes"," Yes"," Yes"," No"," Yes"," Yes"," Yes"," Yes"," Yes"," No"," No"," Yes"," Yes"," Yes"
+"MS MS439",1189,NA," Yes"," Yes"," Yes"," No"," Yes"," Yes"," No"," Yes"," No"," Yes"," No",NA," Yes",NA,NA
+"MS MS500",1516,NA," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes"," Yes",NA,NA
+"MS MS126",1366," No"," Yes",NA,NA," No",NA,NA," No"," No",NA,NA," No",NA,NA," Yes",NA

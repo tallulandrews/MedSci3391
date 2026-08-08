@@ -1,79 +1,79 @@
-"sample" "brain_weight_grams" "meninges" "white_matter" "grey" "frontal_lobe" "temporal_lobe" "parietal_lobe" "occipital_lobe" "midbrain_pons_medulla" "cerebellum" "basal_ganglion" "cingulate_gyrus" "thalamus" "hypothalamus" "hippocampus" "spinal_cord" "optic_nerve"
-"GSM8813321" "MS MS542" 1042 " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" " No" " Yes" " Yes" NA NA
-"GSM8813322" "Control PDC085" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813323" "MS MS129" 1147 " No" " Yes" NA " No" NA " No" " Yes" " No" " No" " No" NA " No" NA " Yes" NA NA
-"GSM8813324" "MS MS403" 893 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" NA " Yes" " Yes" NA " Yes" " Yes" " Yes"
-"GSM8813325" "MS MS547" 1374 " No" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " No" " Yes" " No" " Yes" " Yes" " Yes" NA
-"GSM8813326" "MS MS497" 1011 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " Yes" " Yes" " Yes" NA " Yes" NA NA
-"GSM8813327" "Control PDC068" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813328" "Control PDC131" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813329" "MS MS098" 1280 " No" " Yes" " Yes" NA NA " Yes" " Yes" " Yes" " Yes" " Yes" NA NA NA " Yes" NA NA
-"GSM8813330" "Control C028" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813331" "MS MS527" 1070 " No" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" " Yes" NA " Yes" NA " Yes" " Yes" " Yes" NA
-"GSM8813332" "Control C046" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813333" "Control PDC123" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813334" "Control C039" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813335" "Control PDC087" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813336" "Control PDC035" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813337" "MS MS352" 1212 " No" " Yes" " Yes" " Yes" NA NA " Yes" " Yes" " Yes" NA NA " Yes" " No" " Yes" " Yes" " Yes"
-"GSM8813338" "Control C072" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813339" "Control C054" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813340" "Control C045" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813341" "MS MS383" 1383 " No" " Yes" " Yes" NA " Yes" NA " Yes" " Yes" " No" NA NA " Yes" " Yes" NA " Yes" " Yes"
-"GSM8813342" "MS MS430" 1285 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " No" " No" " Yes" " No" " No" " Yes" " Yes" NA
-"GSM8813343" "Control C064" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813344" "MS MS086" 1100 " No" " No" NA " Yes" NA " Yes" " Yes" " Yes" NA NA NA " Yes" NA " Yes" " Yes" " Yes"
-"GSM8813345" "MS MS499" 973 " No" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" NA
-"GSM8813346" "MS MS061" 973 " No" " Yes" NA NA NA NA " Yes" NA NA NA NA NA NA " Yes" NA NA
-"GSM8813347" "Control PDC029" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813348" "MS MS586" 1289 " No" " Yes" " Yes" " No" " Yes" " No" " Yes" " Yes" " Yes" " No" " Yes" " No" " No" NA " Yes" " Yes"
-"GSM8813349" "Control C076" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813350" "MS MS049" 1525 " No" " Yes" " Yes" " Yes" NA NA " Yes" NA NA NA NA NA NA " No" NA " Yes"
-"GSM8813351" "MS MS576" 1296 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " Yes" " Yes" " No" NA " Yes" " Yes" " Yes"
-"GSM8813352" "Control PDC128" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813353" "MS MS510" 1097 " No" " Yes" " Yes" " Yes" " Yes" " No" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" " Yes"
-"GSM8813354" "MS MS274" 1140 " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" " No" " Yes" NA NA " No" " No" " Yes" " Yes" NA
-"GSM8813355" "Control PDC022" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813356" "MS MS060" 1360 " No" " Yes" NA " Yes" NA NA NA NA NA NA NA NA NA " No" " Yes" NA
-"GSM8813357" "MS MS102" 1258 " Yes" " Yes" " Yes" NA NA " Yes" " Yes" " Yes" " Yes" NA NA " Yes" " Yes" NA " Yes" NA
-"GSM8813358" "MS MS301" 1024 " No" " Yes" " Yes" NA " No" " No" " Yes" " Yes" " Yes" NA NA NA " Yes" " No" " Yes" " Yes"
-"GSM8813359" "MS MS263" 1247 " No" " Yes" NA NA " No" " No" " No" " No" " No" NA NA " No" NA " Yes" " Yes" NA
-"GSM8813360" "Control C096" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813361" "MS MS341" 1071 NA " Yes" " Yes" " Yes" " No" NA " Yes" " Yes" " No" NA NA " Yes" " No" " Yes" " Yes" " Yes"
-"GSM8813362" "MS MS107" 1273 " Yes" " Yes" NA " Yes" NA " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" NA " Yes" " Yes" NA
-"GSM8813363" "MS MS070" 1206 " Yes" " Yes" NA " Yes" NA " Yes" NA NA " Yes" NA NA NA NA NA " Yes" NA
-"GSM8813364" "MS MS444" 1360 " No" " Yes" " Yes" " No" " Yes" " No" " Yes" " Yes" " No" NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes"
-"GSM8813365" "MS MS125" 1005 " Yes" " Yes" " Yes" NA " No" " Yes" " Yes" " No" " Yes" NA NA " No" " No" " Yes" " No" NA
-"GSM8813366" "Control PDC028" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813367" "MS MS216" 1220 " Yes" " Yes" " Yes" " Yes" " No" " No" " Yes" " Yes" " Yes" NA NA " Yes" " Yes" " Yes" " No" NA
-"GSM8813368" "MS MS483" 1039 " Yes" " Yes" " Yes" " No" " Yes" NA " Yes" " Yes" " Yes" NA " Yes" " Yes" " Yes" " No" " Yes" NA
-"GSM8813369" "MS MS549" 1123 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA
-"GSM8813370" "Control C090" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813371" "Control PDC023" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813372" "MS MS422" 1384 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " No" NA NA " Yes" " Yes" " Yes" " Yes" " Yes"
-"GSM8813373" "MS MS094" 1229 " No" " Yes" NA " Yes" NA NA NA " Yes" " Yes" NA NA " Yes" NA " Yes" " Yes" NA
-"GSM8813374" "MS MS448" 1240 " No" " Yes" NA " No" NA " No" " Yes" " Yes" " Yes" " Yes" " No" " No" " No" " Yes" " Yes" NA
-"GSM8813375" "MS MS485" 1109 NA " Yes" NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" NA
-"GSM8813376" "MS MS406" 1051 " No" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA " Yes" " Yes" NA " Yes" " Yes" " Yes"
-"GSM8813377" "MS MS517" 1318 " No" " Yes" " Yes" " No" " No" " No" " Yes" " No" " No" NA " Yes" " No" " No" " Yes" " Yes" " Yes"
-"GSM8813378" "MS MS264" 1300 " Yes" " Yes" " Yes" " No" " No" " No" " No" " Yes" " Yes" NA NA " No" " No" " Yes" NA NA
-"GSM8813379" "Control PDC005" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813380" "Control C092" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813381" "Control C084" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813382" "MS MS390" 1224 " No" " No" NA " No" " No" NA " No" " Yes" " Yes" " Yes" " No" " No" " No" " No" " Yes" " No"
-"GSM8813383" "Control C032" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813384" "Control PDC034" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813385" "MS MS088" 1185 " No" " Yes" NA NA NA NA " Yes" " Yes" " No" NA NA NA NA " No" " Yes" NA
-"GSM8813386" "MS MS313" 1266 " Yes" " Yes" NA NA " Yes" NA " Yes" " Yes" " Yes" NA NA " No" " No" " No" " Yes" " Yes"
-"GSM8813387" "MS MS050" 1175 " No" " Yes" NA " Yes" " Yes" " Yes" " No" " No" NA NA NA NA NA " Yes" " Yes" NA
-"GSM8813388" "MS MS407" 1230 " No" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA NA " Yes" " Yes" " Yes" NA " Yes"
-"GSM8813389" "MS MS103" 1183 " No" " Yes" " Yes" " Yes" NA " Yes" " Yes" " Yes" " No" NA NA " Yes" " Yes" NA " Yes" NA
-"GSM8813390" "MS MS528" 1137 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA
-"GSM8813391" "MS MS470" 1109 " No" " Yes" " Yes" " Yes" " Yes" " No" " Yes" " Yes" " Yes" " Yes" " Yes" " No" " No" " Yes" " Yes" " Yes"
-"GSM8813392" "MS MS439" 1189 NA " Yes" " Yes" " Yes" " No" " Yes" " Yes" " No" " Yes" " No" " Yes" " No" NA " Yes" NA NA
-"GSM8813393" "Control PDC027" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813394" "Control PDC086" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813395" "MS MS500" 1516 NA " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" " Yes" NA NA
-"GSM8813396" "MS MS126" 1366 " No" " Yes" NA NA " No" NA NA " No" " No" NA NA " No" NA NA " Yes" NA
-"GSM8813397" "Control C074" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
-"GSM8813398" "Control C094" NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+"sample","brain_weight_grams","meninges","white_matter","grey","frontal_lobe","temporal_lobe","parietal_lobe","occipital_lobe","midbrain_pons_medulla","cerebellum","basal_ganglion","cingulate_gyrus","thalamus","hypothalamus","hippocampus","spinal_cord","optic_nerve"
+"GSM8813321","MS MS542",1042,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA,"Yes","Yes","No","Yes","Yes",NA,NA
+"GSM8813322","Control PDC085",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813323","MS MS129",1147,"No","Yes",NA,"No",NA,"No","Yes","No","No","No",NA,"No",NA,"Yes",NA,NA
+"GSM8813324","MS MS403",893,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",NA,"Yes","Yes",NA,"Yes","Yes","Yes"
+"GSM8813325","MS MS547",1374,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","No","Yes","No","Yes","Yes","Yes",NA
+"GSM8813326","MS MS497",1011,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes",NA,"Yes",NA,NA
+"GSM8813327","Control PDC068",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813328","Control PDC131",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813329","MS MS098",1280,"No","Yes","Yes",NA,NA,"Yes","Yes","Yes","Yes","Yes",NA,NA,NA,"Yes",NA,NA
+"GSM8813330","Control C028",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813331","MS MS527",1070,"No","Yes","Yes","Yes","Yes",NA,"Yes","Yes","Yes",NA,"Yes",NA,"Yes","Yes","Yes",NA
+"GSM8813332","Control C046",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813333","Control PDC123",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813334","Control C039",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813335","Control PDC087",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813336","Control PDC035",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813337","MS MS352",1212,"No","Yes","Yes","Yes",NA,NA,"Yes","Yes","Yes",NA,NA,"Yes","No","Yes","Yes","Yes"
+"GSM8813338","Control C072",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813339","Control C054",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813340","Control C045",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813341","MS MS383",1383,"No","Yes","Yes",NA,"Yes",NA,"Yes","Yes","No",NA,NA,"Yes","Yes",NA,"Yes","Yes"
+"GSM8813342","MS MS430",1285,NA,"Yes","Yes","Yes","Yes","Yes","Yes","No","No","No","Yes","No","No","Yes","Yes",NA
+"GSM8813343","Control C064",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813344","MS MS086",1100,"No","No",NA,"Yes",NA,"Yes","Yes","Yes",NA,NA,NA,"Yes",NA,"Yes","Yes","Yes"
+"GSM8813345","MS MS499",973,"No","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes",NA,"Yes","Yes",NA
+"GSM8813346","MS MS061",973,"No","Yes",NA,NA,NA,NA,"Yes",NA,NA,NA,NA,NA,NA,"Yes",NA,NA
+"GSM8813347","Control PDC029",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813348","MS MS586",1289,"No","Yes","Yes","No","Yes","No","Yes","Yes","Yes","No","Yes","No","No",NA,"Yes","Yes"
+"GSM8813349","Control C076",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813350","MS MS049",1525,"No","Yes","Yes","Yes",NA,NA,"Yes",NA,NA,NA,NA,NA,NA,"No",NA,"Yes"
+"GSM8813351","MS MS576",1296,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","No",NA,"Yes","Yes","Yes"
+"GSM8813352","Control PDC128",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813353","MS MS510",1097,"No","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes",NA,"Yes","Yes","Yes"
+"GSM8813354","MS MS274",1140,"Yes","Yes","Yes","Yes","Yes",NA,"Yes","No","Yes",NA,NA,"No","No","Yes","Yes",NA
+"GSM8813355","Control PDC022",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813356","MS MS060",1360,"No","Yes",NA,"Yes",NA,NA,NA,NA,NA,NA,NA,NA,NA,"No","Yes",NA
+"GSM8813357","MS MS102",1258,"Yes","Yes","Yes",NA,NA,"Yes","Yes","Yes","Yes",NA,NA,"Yes","Yes",NA,"Yes",NA
+"GSM8813358","MS MS301",1024,"No","Yes","Yes",NA,"No","No","Yes","Yes","Yes",NA,NA,NA,"Yes","No","Yes","Yes"
+"GSM8813359","MS MS263",1247,"No","Yes",NA,NA,"No","No","No","No","No",NA,NA,"No",NA,"Yes","Yes",NA
+"GSM8813360","Control C096",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813361","MS MS341",1071,NA,"Yes","Yes","Yes","No",NA,"Yes","Yes","No",NA,NA,"Yes","No","Yes","Yes","Yes"
+"GSM8813362","MS MS107",1273,"Yes","Yes",NA,"Yes",NA,"Yes","Yes","Yes","Yes","Yes",NA,"Yes",NA,"Yes","Yes",NA
+"GSM8813363","MS MS070",1206,"Yes","Yes",NA,"Yes",NA,"Yes",NA,NA,"Yes",NA,NA,NA,NA,NA,"Yes",NA
+"GSM8813364","MS MS444",1360,"No","Yes","Yes","No","Yes","No","Yes","Yes","No",NA,"Yes","Yes","Yes","Yes","Yes","Yes"
+"GSM8813365","MS MS125",1005,"Yes","Yes","Yes",NA,"No","Yes","Yes","No","Yes",NA,NA,"No","No","Yes","No",NA
+"GSM8813366","Control PDC028",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813367","MS MS216",1220,"Yes","Yes","Yes","Yes","No","No","Yes","Yes","Yes",NA,NA,"Yes","Yes","Yes","No",NA
+"GSM8813368","MS MS483",1039,"Yes","Yes","Yes","No","Yes",NA,"Yes","Yes","Yes",NA,"Yes","Yes","Yes","No","Yes",NA
+"GSM8813369","MS MS549",1123,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA
+"GSM8813370","Control C090",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813371","Control PDC023",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813372","MS MS422",1384,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",NA,NA,"Yes","Yes","Yes","Yes","Yes"
+"GSM8813373","MS MS094",1229,"No","Yes",NA,"Yes",NA,NA,NA,"Yes","Yes",NA,NA,"Yes",NA,"Yes","Yes",NA
+"GSM8813374","MS MS448",1240,"No","Yes",NA,"No",NA,"No","Yes","Yes","Yes","Yes","No","No","No","Yes","Yes",NA
+"GSM8813375","MS MS485",1109,NA,"Yes",NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA,"Yes","Yes",NA
+"GSM8813376","MS MS406",1051,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA,"Yes","Yes",NA,"Yes","Yes","Yes"
+"GSM8813377","MS MS517",1318,"No","Yes","Yes","No","No","No","Yes","No","No",NA,"Yes","No","No","Yes","Yes","Yes"
+"GSM8813378","MS MS264",1300,"Yes","Yes","Yes","No","No","No","No","Yes","Yes",NA,NA,"No","No","Yes",NA,NA
+"GSM8813379","Control PDC005",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813380","Control C092",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813381","Control C084",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813382","MS MS390",1224,"No","No",NA,"No","No",NA,"No","Yes","Yes","Yes","No","No","No","No","Yes","No"
+"GSM8813383","Control C032",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813384","Control PDC034",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813385","MS MS088",1185,"No","Yes",NA,NA,NA,NA,"Yes","Yes","No",NA,NA,NA,NA,"No","Yes",NA
+"GSM8813386","MS MS313",1266,"Yes","Yes",NA,NA,"Yes",NA,"Yes","Yes","Yes",NA,NA,"No","No","No","Yes","Yes"
+"GSM8813387","MS MS050",1175,"No","Yes",NA,"Yes","Yes","Yes","No","No",NA,NA,NA,NA,NA,"Yes","Yes",NA
+"GSM8813388","MS MS407",1230,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA,NA,"Yes","Yes","Yes",NA,"Yes"
+"GSM8813389","MS MS103",1183,"No","Yes","Yes","Yes",NA,"Yes","Yes","Yes","No",NA,NA,"Yes","Yes",NA,"Yes",NA
+"GSM8813390","MS MS528",1137,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA
+"GSM8813391","MS MS470",1109,"No","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","No","No","Yes","Yes","Yes"
+"GSM8813392","MS MS439",1189,NA,"Yes","Yes","Yes","No","Yes","Yes","No","Yes","No","Yes","No",NA,"Yes",NA,NA
+"GSM8813393","Control PDC027",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813394","Control PDC086",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813395","MS MS500",1516,NA,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",NA,NA
+"GSM8813396","MS MS126",1366,"No","Yes",NA,NA,"No",NA,NA,"No","No",NA,NA,"No",NA,NA,"Yes",NA
+"GSM8813397","Control C074",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"GSM8813398","Control C094",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA

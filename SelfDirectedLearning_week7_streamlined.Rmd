@@ -1,0 +1,365 @@
+---
+title: "SelfDirectedLearning_week7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+In this Self-directed learning you will learn:
+- how to run a T-test in R
+- What the Wilcoxon-rank-sum test is and how to run it.
+- What a for-loop is and how to run one.
+- How to collect results from a for-loop for later use.
+- How to perform Bonferroni and FDR multiple testing corrections.
+
+To provide a biological context for why we are learning this we are going to use RNAseq data to test each gene to see if it is more highly or more lowly expressed in the brain of patients with multiple sclerosis, and examine how multiple testing corrections affect the number of genes we find as significant. 
+
+## Introduction to Multiple Sclerosis
+
+For Dr. Andrews' section we will be working with RNA sequencing data from patients with Multiple Sclerosis (MS) and non-MS controls. This intro is provided so you have the biological context to understand the examples used in the self-study materials, you will not be tested on your understanding of MS.
+
+For those unfamiliar with MS, it is a neuro-degenerative autoimmune disorder where the T-cells and B-cells start attacking the protective myelin sheath around neurons. It typically manifests as recurrent "attacks" with acute inflammation and destruction of myelin which then are resolved by the normal process of inflammation resolution during which time there might be repair and regeneration of the myelin known as "remission" during the disease stage known as relapsing-remitting MS. Loss of myelin reduces the signaling capacity of the neurons and prevents normal recycling of neuron waste, causing various movement and neurological symptoms. 
+
+However, the disease typically progresses as the repair and regenerative capacity is exhausted into what is known as the secondary progressive stage, where myelin is progressively lost and the neurons it was protecting become damaged and die.
+
+MS inflammation & degeneration is not universal, but rather occurs in localized areas known as "lesions".
+
+## Introduction to RNAseq
+
+RNAseq measures the expression of all the genes in the transcriptome using sequencing technology. Below is a diagram of the experimental workflow for generating RNAseq data. Briefly, RNA is extracted and purified, converted into DNA, chopped into pieces to create a sequencing library, then sequenced. The sequencing reads are then compared to the appropriate genome to determine which transcript they originated from, and we count the total number of reads originating from each transcript. The number of reads is proportional to the original concentration of the RNA (with some caveats), thus more reads indicated a gene was more highly expressed. 
+
+The data we have provided to you are in the form of a gene expression matrix already, which contains expression for each gene in each sample after normalizing so that it is comparable between different samples. As well as a table of metadata that contains information about the source of each sample.
+
+![RNAseq](https://raw.githubusercontent.com/tallulandrews/MedSci3391/refs/heads/main/RNAseq.png)
+### Data Source
+This data originates from the [Gene Expression Omnibus](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi) as part of an industry-funded study and has not yet been published.
+
+This dataset is RNAseq data from post-mortem brains of normal (Control) or patients with MS of various stages.
+
+## Reading the data:
+
+We have two tables of data from this study: the normalized expression data for each gene in each sample (log_fpkms_genesymbol.csv), and sample metadata including diagnosis and various demographic information (MS_meta_data.csv).
+
+We can read these files in using `read.csv()`. These files also have a "header" line with the names of each column, so we'll tell R to do that as well.
+
+```{r}
+expression <- read.csv("log_fpkms_genesymbol.csv", header=TRUE, stringsAsFactors = FALSE)
+clinical <- read.csv("MS_meta_data.csv", header=TRUE, check.names=FALSE, stringsAsFactors = FALSE)
+```
+
+We can have a look at what kind of data is in each of these tables using the "head" command:
+
+```{r}
+head(expression)
+head(clinical)
+```
+
+::: Check your understanding
+How many samples do we have in our dataset? You should know how to figure this out from previous portions of this course.
+:::
+
+### Convert the gene expression to a matrix
+
+Currently our data is in data.frame format (use `class()` to confirm this). DataFrames only allow mathematical operations (e.g. +,-,*,/) to be applied to columns. Whereas a matrix allows these operations to be applied to both rows and columns.
+
+Since our gene expression data.frame contains only numbers we can convert it to a matrix to allow us to calculate statistics on the genes (rows) as well as on the samples (columns). So let's convert it to one now:
+```{r}
+class(expression) # check what our data currently is.
+expression <- as.matrix(expression) # convert to a matrix.
+class(expression) # confirm it has been converted.
+```
+
+# Calculating Differences in Expression
+
+## Review: Cleaning Data
+
+Ok now we want to calculate the difference in expression between MS patients and normal controls. Let's create a vector that defines which of the columns in our expression matrix are samples from MS or normal controls. We can get this information from the clinical metadata:
+
+```{r}
+head(clinical)
+```
+If you click the arrow to the right of the output above you can find a column called "diagnosis" that contains the information of what disease (if any) the patient had. Let's check what different diagnoses we have and how many samples we have of each using the `table()` function:
+
+```{r}
+table(clinical$diagnosis)
+```
+Here we can see that we have 3 different types of MS represented:
+- PPMS : primary progressive MS, i.e. MS that was progressive at diagnosis
+- RRMS : recurring remitting MS
+- SPMS : secondary progressive MS, i.e. initially RRMS that has become progressive.
+As well as Non-MS controls. 
+
+::: Check your understanding
+Using the logical operators you learned earlier in this course create a vector of TRUE-FALSE for whether a sample has MS or not. 
+
+There are two possible solutions, we will only show one below, can you think of the other one?
+:::
+
+### Solution 1:
+
+```{r}
+is.MS <- clinical$diagnosis %in% c("PPMS", "RRMS", "SPMS")
+```
+
+## Running a T-test
+
+The T-test is a parametric test that compares the means of two groups. It is based on the t-distribution which is similar to the Normal distribution but suitable for small sample sizes (< 50 samples in each group). 
+
+Since our data has been normalized, we can use a T-test to compare the expression in Controls vs MS. We are going to test the "JCHAIN" gene, which is expressed by B-cells, as an example. Then we will learn how to use a For loop to test all of the genes.
+
+We use the `t.test()` function to run a T-test in R:
+```{r}
+?t.test()
+```
+This help page is a bit complicated, but the basic usage is the "Default S3 method" where it shows giving the function two vectors : x and y with the values observed in group 1 and group 2 that we want to compare. We can use `alternative` to decide which hypothesis we want to test : group 1 > group 2, group 1 < group 2, or group 1 != group 2. These different alternative hypotheses were covered in your second year stats course so we will not explain them again here. By default it will perform a "two.sided" test which will test: group 1 != group 2.
+
+Now let's test JCHAIN between MS and non-MS samples:
+```{r}
+JCHAIN_MS <- expression["JCHAIN", is.MS] # expression of JCHAIN in the MS samples
+JCHAIN_NON <- expression["JCHAIN", !is.MS] # expression of JCHAIN in control samples
+t.test(JCHAIN_MS, JCHAIN_NON)
+```
+Here we can see the output, including:
+- t = t-statistic*
+- df = degrees of freedom* 
+- p-value and 95% confidence interval for the difference between the means
+- mean of x = mean of the first vector (JCHAIN_MS)
+- mean of y = mean of the second vector (JCHAIN_NON)
+
+*Note: these were covered in your 2nd year stats class so we will not explain them again.
+
+:::Check your understanding
+Based on this output is JCHAIN higher in MS or non-MS samples? Is this difference statistically significant (p < 0.05)?
+:::
+
+## Running a Wilcoxon Rank Sum Test
+
+The Wilcoxon Rank Sum Test is a non-parametric test that compares the medians of two groups. It first ranks all the observed values in both groups then compares the average rank of values from group 1 to the average rank of values from group 2. As such it can be applied to data from any distribution as long as all the observed values are all different from each other.
+
+This test is built into R just like the T-test:
+```{r}
+?wilcox.test()
+```
+Notice that this help file looks almost the same as the one for `t.test()`. Thus we run it the same way. 
+
+```{r}
+JCHAIN_MS <- expression["JCHAIN", is.MS] # expression of JCHAIN in the MS samples
+JCHAIN_NON <- expression["JCHAIN", !is.MS] # expression of JCHAIN in control samples
+wilcox.test(JCHAIN_MS, JCHAIN_NON)
+```
+Here we have "W" which is the wilcox test statistic, it requires a look up table using the number of samples in each group to interpret correctly so we won't worry about it now. And we have a p-value.
+
+Notice that the wilcox.test() gives a more significant p-value than the t.test(), this usually indicates that out data didn't fit the t distribution very well - this is common for RNAseq data thus it is more appropriate to use a wilcox.test to test for differences in expression. 
+
+# Looping across genes
+
+Now that we know how to test the difference between MS and Control samples for one gene, we want to run the test on all of the genes. To do so we will use a "for-loop".
+
+## What is a For-Loop
+
+A for loop repeats a block of code "for" each one of a set of values. To create a for loop we need to specify a variable that is going to store the current value, as well as the set of values that it will take one by one each time the loop "loops" (i.e. repeats).
+
+Consider a simple example:
+```{r}
+# Remember that 1:10 = c(1,2,3,4,5,6,7,8,9,10)
+for (i in 1:10) {
+  print(i^2)
+}
+```
+
+The "for" indicates this is a for loop. The "i in 1:10" within the round brackets defines how the loop will repeat. The "{}" brackets define what code will be run each time the loop repeats. 
+
+Here we define "i" to hold the current value, and 1:10 defines the values that "i" will take each time the loop runs. The loop starts with the first value in this vector, i.e. 1, and i takes the next value in this vector each time the loop repeats. So the second time the loop repeats i is equal to 2, the third time i is equal to 3, etc... until the loop runs out of values for i to take.
+
+The code that gets repeated for each value of i is defined by the "{}" brackets. In this case it is "print(i^2)" which just prints the value of i squared. 
+
+We can provide any vector of values to loop over not just numbers:
+```{r}
+for (word in c("Hello", "Goodbye", "Adieu")){
+  print(word)
+}
+```
+And we can put any amount of code within the curly bracket:
+```{r}
+for (num in c(36,25,64)){
+  out <- sqrt(num)
+  out <- out+3
+  print(out)
+}
+```
+We can even put another for loop within a for loop:
+```{r}
+for(i in c(1, 3, 6)){
+  print("loop1")
+  for(j in 1:i){
+    print(j)
+  }
+}
+```
+
+:::Check your understanding
+Predict what the code below will produce, then run it to see if you were correct:
+```{r}
+# Example 1:
+for (i in 1:5) {
+  print(i+5)
+}
+```
+
+```{r}
+# Example 2:
+j = 10:14
+for (i in 1:5) {
+  print(j[i]-i)
+}
+```
+:::
+
+## Testing for expression differences in a for-loop
+
+Now we are going to use a for-loop with the code above that runs the wilcox test to determine if each gene in our dataset is significantly different between Control and MS samples.
+
+In our wilcox.test() code, we subsetted the expression of the JCHAIN gene specifically:
+```{r}
+JCHAIN_MS <- expression["JCHAIN", is.MS] # expression of JCHAIN in the MS samples
+JCHAIN_NON <- expression["JCHAIN", !is.MS] # expression of JCHAIN in control samples
+```
+If we want to loop over genes, we need to replace this name "JCHAIN" with the variable that is taking different values in our for loop:
+
+```{r, eval=FALSE}
+for(gene in ???) {
+  MS_expr <- expression[gene, is.MS] # expression of this gene in the MS samples
+  NON_expr <- expression[gene, !is.MS] # expression of this gene in the control samples
+  wilcox.test(MS_expr, NON_expr) # run wilcox test
+}
+```
+Now we need a vector of all the gene names to loop over to fill in the "???" in the code above. We can find this in the rownames of our expression table. Note there are 40,000 genes in this table. It will take many minutes to run on all of these, so for now we'll only run on the first 500 genes.
+```{r}
+genes_to_test <- rownames(expression)[1:500] # first 500 genes
+for(gene in genes_to_test) {
+  MS_expr <- expression[gene, is.MS]
+  NON_expr <- expression[gene, !is.MS]
+  wilcox.test(MS_expr, NON_expr)  
+}
+```
+
+
+### Collecting output for each gene
+This code above ran without errors but it didn't print anything to the screen. Even if it had, it's not practical to look through the output we saw above for each individual test. So we need a way to save the output. In this case, the only useful value we get from the wilcox.test is the p value.
+
+```{r}
+wilcox.test(JCHAIN_MS, JCHAIN_NON)
+```
+If we save the output from this function to a variable we can isolate the p-value from the rest of the output.
+
+```{r}
+res <- wilcox.test(JCHAIN_MS, JCHAIN_NON)
+str(res)
+```
+The output is stored as a list! and we can see an element called "p.value" with our p-value in it.
+
+```{r}
+res$p.value
+```
+
+We can add this to our for loop:
+```{r}
+genes_to_test <- rownames(expression)[1:500]
+for(gene in genes_to_test) {
+  MS_expr <- expression[gene, is.MS]
+  NON_expr <- expression[gene, !is.MS]
+  res <- wilcox.test(MS_expr, NON_expr)
+  res$p.value
+}
+```
+We could use `print()` to make these p-value appear on our screen. However, we want to run our multiple testing correction on these p-values, which means we need to save these p-values to a vector to continue working on. 
+
+We'll create a vector to store our output for this purpose.
+```{r}
+output <- vector(length=500)
+names(output) <- genes_to_test # name each entry of the vector with the appropriate gene name.
+head(output)
+```
+
+### Putting it all together
+Now we can put each of these pieces together to get the p-values for all 500 genes.
+
+```{r}
+for(gene in genes_to_test) {
+  MS_expr <- expression[gene, is.MS]
+  NON_expr <- expression[gene, !is.MS]
+  res <- wilcox.test(MS_expr, NON_expr)
+  output[gene] <- res$p.value
+}
+```
+Let's check what our output looks like:
+```{r}
+head(output)
+```
+## Multiple Testing and Number of Significant Genes
+
+We will cover multiple testing correction in lecture on Wednesday (Oct 28th). It is recommended to finish this portion of the self-study after that lecture.
+
+We can use the `table()` function to determine how many of our genes would be significant at p < 0.05 (this value : 0.05 is known as the "alpha" value of our significance test)
+
+```{r}
+table(output < 0.05)
+```
+Here we can see there are 241 genes that are 'significant' using this p-value threshold. However, as we covered (or will cover) in lecture, we expect some p-values to be less than 0.05 just by chance. 
+
+We can calculate how many we expect simply by multiplying the probability of it occurring (0.05) by the number of opportunities it has to occur - i.e. the number of genes we tested : 500.
+
+```{r}
+expected = 0.05*500
+expected
+```
+Thus we expect 25 genes to be significant just by chance. But we don't know which of those 241 are these false findings.
+
+### Bonferroni Correction
+We can correct for these false significant genes using the Bonferroni Correction. The Bonferroni correction changes our significance threshold so that the number of tests we expect to be significant by chance is equal to 0.05. It does this by dividing our original significance threshold (alpha=0.05) by the number of tests to get our new significance threshold.
+
+```{r}
+sig_thresh_bon <- 0.05/500
+```
+We can then use this new threshold to determine how many genes would be considered significant:
+```{r}
+table(output < sig_thresh_bon)
+```
+Here we can see that only 38 genes are significant after a Bonferroni correction.
+
+## False Discovery Rate (FDR)
+As we can see above, the Bonferroni correction is very strict. So some other mathematicians proposed instead correcting so that the "False Discovery Rate" is equal to 0.05 (or 5%). The FDR is defined as proportion of all significant results that are expected to be just due to chance. Let's calculate the FDR when using p < 0.05:
+
+```{r}
+expected <- 0.05*500 # number we expect to be significant due to chance at p < 0.05
+observed <- table(output < 0.05)[2] # number we observe to be significant at p < 0.05
+FDR <- expected/observed
+print(FDR)
+```
+Here we see that at p < 0.05 we have ~10% FDR. Typically we try to keep FDR < 5%, we could try various p-value thresholds to find the one that gives us FDR < 5%. Or we could use the in-built function `p.adjust()`
+```{r}
+?p.adjust()
+```
+This function can perform many different multiple testing corrections for us we are only going to consider the "fdr" option. This function will convert each of our p-values to the FDR value at that p-value threshold. So in our example this function would convert a p-value equal to 0.05, into 0.1037344 (the FDR value we calculated above). 
+```{r}
+fdr <- p.adjust(output, method="fdr") # perform FDR correction
+```
+Now we just need to check how many of our fdr values are < 0.05 (5%).
+```{r}
+table(fdr < 0.05) # check how many genes are significant at 5% FDR
+```
+Here we see 205 genes are significant at 5% FDR. Note this is many more significant results than we got with the Bonferroni correction.
+
+One important limitation of the FDR correction is that the significance of some results depends on the significance of other results. For example, if we were to change the 38 genes significant after a Bonferroni correction to a p-value of 1 and repeat the FDR correction, we'll see that more genes than just those 38 will no longer be significant:
+```{r}
+tmp <- output # make a copy of our p-values
+tmp[output < sig_bon] <- 1 # change the 38 Bonferroni significant genes to p-value =1
+fdr2 <- p.adjust(tmp, method="fdr") # repeat the FDR correction
+table(fdr2 < 0.05) # check how many genes are significant at 5% FDR
+```
+Here we have 49 fewer significant genes than we had above, despite only changing the p-values for 38 genes. 
+
+::: Test yourself
+Adapt the code shown here to use a `t.test()` to calculate the significance of the difference between the mean expression for the top 700 genes in MS vs non-MS patients and determine the number of genes that are significant after a Bonferroni correction.
+:::

@@ -1,0 +1,246 @@
+---
+title: "SelfDirectedLearning_week9"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+In this Self-directed learning you will learn:
+- review using `apply()` and `cor()`
+- how to run linear regression with multiple independent variables
+- What an interaction term is and how it include it in a regression formula.
+- How to calculate mean expression in each group from estimated coefficients.
+- How to interpolate / extrapolate values from a regression model.
+
+To provide a biological context for why we are learning this we are going to consider how sex differences can confound disease comparisons. 
+
+## Reading the data:
+
+We will continue with our MS data. We can read all of these files in using read.csv.
+
+```{r}
+expression <- read.csv("log_fpkms_genesymbol.csv", header=TRUE, stringsAsFactors = FALSE)
+clinical <- read.csv("MS_meta_data.csv", header=TRUE, check.names=FALSE, stringsAsFactors = FALSE)
+
+expression <- as.matrix(expression) # convert to a matrix.
+```
+
+## Review of apply() : Determining Sex from expression data.
+
+To double check the sex of each of our samples we can examine the expression of XIST, the RNA transcript that silences the second X chromosomes in females, and genes unique to the Y-chromosome. We'll start by using `apply()` to calculate the total expression from the Y-chromosome for each sample. We have provided a list of Y-chromosome genes for you below:
+
+```{r}
+Y_only_genes <- c("UTY", "NLGN4Y", "P2RY8", "ZFY", "PCDH11Y", "TSPY2", "PRKY","TTTY11","FAM197Y5", "TTTY2", "DAZ1","DAZ2","DAZ3","DAZ4","HSFY1","HSFY2","TTTY10","RPS4Y2", "BPY2C", "SRY","KDM5D","TTTY14", "PRORY")
+```
+
+Try it yourself! Calculate the total expression of Y-chromosome genes in each sample of our expression data using `apply()'.
+```{r}
+# Your Solution
+
+
+
+
+
+```
+
+
+
+
+
+Now we need to create our score. We want one score for each sample thus we are using `apply()` on the columns of our expression matrix. We want the total Y-chromosome expression so the function we want to apply is the `sum()` thus:
+```{r}
+# Our Solution
+chrY_score <- apply(expression[Y_only_genes,],2,sum)
+```
+
+We can check that samples either have a Y chromosome or they expression XIST using a correlation. Using your understanding of correlation, do you expect a positive or negative correlation between Y-chromosome expression and XIST?
+```{r}
+cor(expression["XIST",], chrY_score) 
+
+# If you get an error saying "incompatible dimensions" from the above, that most likely because your expression data is a data.frame not a matrix thus when you select the "XIST" row it is a list rather than a vector.
+```
+
+
+
+
+ANSWER: Here we see a value very close to -1 meaning these two scores are almost completely mutually exclusive.
+
+Now we just need to check these scores match the sex recorded in our metadata. The easiest way to do that is to create a new dataframe with all three of these pieces of data together.
+```{r}
+df <- data.frame(chrY=chrY_score, XIST = expression["XIST",], sex=clinical$sex)
+df
+```
+If you look carefully you'll see on the first page of this output one sample is labelled as female but has high expression of Y chromosome genes. The creators of this data said that this sample is mislabelled with the wrong metadata, so let's fix it. The key here is to see that the accession (row name) for this sample is "GSM8813330".
+
+Let's check the metadata for this sample:
+```{r}
+clinical[clinical$accession=="GSM8813330",]
+```
+Now let's change the recorded sex for this sample to "male"
+```{r}
+clinical[clinical$accession=="GSM8813330","sex"] <- "male"
+```
+
+## Multivariate linear regression
+
+Many diseases, including MS, are more frequent in one sex than the other. If studies aren't carefully designed these biases will also be in the data we collect. Let's check whether we have a sex-bias in our MS data using the `table()` function:
+
+```{r}
+table(clinical$diagnosis, clinical$sex)
+```
+Here we can see that our non-MS controls are pretty balanced, but our MS cases are mostly female. This means any gene that is higher in females than in males will appear to be different between MS cases and controls. 
+
+To address this problem, we could stratify our samples and compare female-MS patients to female controls, and male-MS patients to male controls. However, since we have fewer male-MS patients it will be hard to know if genes we see only in the female comparison is actually unique to females or if we just didn't have enough data for the males to detect them as significant.
+
+Another solution to this problem is to add "sex" as another independent variable in our linear regression model. To show this with an example we will consider the gene "CD99" which is involved in T cell recruitment and is known to have sex-specific expression.
+
+Let's start with a basic linear regression to see if this gene is different between MS and non-MS samples.
+```{r}
+CD99_expr <- expression["CD99",]
+is.MS <- clinical$diagnosis %in% c("PPMS", "RRMS", "SPMS") 
+reg <- lm(CD99_expr~is.MS)
+summary(reg)
+```
+Remember this model represents the mathematical equation: y = B0 + B1*x. In these results "(Intercept)" is the B0 coefficient, and "is.MSTRUE" is the B1 coefficient. 
+
+The "TRUE" in "is.MSTRUE" indicates which value of is.MS was converted to a "1" vs a "0". So in this case x = 1 when is.MS == TRUE, and x = 0 when is.MS == FALSE.
+
+Here we see that CD99 is significantly lower in MS than in controls (B1 = -0.34). Let's check it's relationship with sex:
+
+```{r}
+reg <- lm(CD99_expr~clinical$sex)
+summary(reg)
+```
+Remember this model represents the mathematical equation: y = B0 + B1*x. In these results "(Intercept)" is the B0 coefficient, and "clinical$sexmale" is the B1 coefficient. 
+
+The "male" in "clinical$sexmale" indicates which value of sex was converted to a "1" vs a "0". So in this case x = 1 when sex == "male", and x = 0 when sex == "female".
+
+Here we can see CD99 is higher in males than in females (B1 = 0.51). Hence we now have a problem, is the lower expression of CD99 in MS due to there being fewer males in the MS group?
+
+We can simply put both of our independent variables : is.MS and sex into the formula:
+
+```{r}
+reg <- lm(CD99_expr~is.MS + clinical$sex)
+summary(reg)
+```
+Our model now represents the equation: y = B0 + B1 * x + B2 * z. In these results "(Intercept)" is the B0 coefficient, "is.MSTRUE" is the B1 coefficient, and "clinical$sexmale" is the B2 coefficient. 
+
+Here we can see that including both independent variables decreased the size of the estimated coefficient of each one: Our coefficient for "male" is 0.47 now vs 0.51 when we only had sex in the model. Our coefficient for "MS" is -0.26 now vs -0.34 when we only had disease state in the model. 
+
+In addition, the significance of each has decreased as well, and now the relationship with MS is barely significant (p = 0.0178). However, both are still significant indicating that CD99 is related to both MS and sex.
+
+In contrast our R-squared values have increased, indicating that the total variance explained by both predictors combined in higher than that explained by each one alone. Note that adding predictors to our model will always increase our R-squared value even if that predictor is irrelevant to our outcome which is why the "Adjusted R-squared" is provided as well which accounts for this fact. This phenomenon will be explored more in Thursday's lecture.
+
+This is expected when our two independent variables have some similarity with each other, as some of expression difference related to MS would incorrectly have been attributed to sex in the model only considering sex (and same for expression difference related to sex in the MS-only model).
+
+### Adding an interaction between two independent variables
+
+There is one other possibility we haven't accounted for in this model. That is whether there is an interaction between sex and disease for this gene. For example, CD99 might be expressed lower in MS only in males, and not different between control and MS in females. We can test for this possibility by including an "interaction term" in our regression model. In R we use "*" to indicate an interaction for reasons that will be explained more in lecture this week. Thus our regression model becomes:
+
+```{r}
+reg <- lm(CD99_expr~is.MS + clinical$sex + is.MS*clinical$sex)
+summary(reg)
+```
+This model corresponds to this mathematical equation: y = B0 + B1 * x + B2 * z + B3 * x * z. Similar to the above the suffixes indicate which value of sex & is.MS were considered a 1 vs a 0.
+
+### Understanding the coefficients in an interaction model
+
+We can use this equation to determine the estimated mean expression in each of out groups as follows:
+
+Group: female & no-MS
+x = 0 # x represents the MS vs no and no-MS was set to 0.
+z = 0 # z represents the sex and female was set to 0.
+
+Thus our equation becomes:
+y = B0 + B1 * 0 + B2 * 0 + B3 * 0 * 0
+which simplifies to:
+y = B0, which in this case was 1.61285
+
+Group: male & no-MS
+x = 0 # x represents the MS vs no and no-MS was set to 0.
+z = 1 # z represents the sex and male was set to 1.
+
+Thus our equation becomes:
+y = B0 + B1 * 0 + B2 * 1 + B3 * 1 * 0
+which simplifies to:
+y = B0 + B2, which in this case is 1.61285 + 0.52549 = 2.13834
+
+Group: male & yes-MS
+x = 1 # x represents the MS vs no and no-MS was set to 0.
+z = 1 # z represents the sex and male was set to 1.
+
+Thus our equation becomes:
+y = B0 + B1 * 1 + B2 * 1 + B3 * 1 * 1
+which in this case is 1.61285 -0.21161 + 0.52549 -0.09702 = 1.82971
+
+::: Check your understanding
+Calculate the average expression in females with MS using the coefficients from the interaction model.
+:::
+
+We can confirm we are right by calculating these means from the original data itself.
+
+```{r}
+mean(CD99_expr[clinical$sex == "female" & is.MS == FALSE])
+mean(CD99_expr[clinical$sex == "female" & is.MS == TRUE])
+mean(CD99_expr[clinical$sex == "male" & is.MS == FALSE])
+mean(CD99_expr[clinical$sex == "male" & is.MS == TRUE])
+```
+However now we know how each of our independent variables contribute to these means. In this case sex contributes the most and was the only significant contributor. Whereas MS had a smaller effect, and the synergistic relationship between MS and sex had the least. We also have learned that the expression of CD99 tends to decrease in MS more so in males than it does in females. 
+
+## Interpolation and Extrapolation
+
+When we have continuous values for our independent variables we can use our regression model to interpolate or extrapolate to values of the independent variables that we haven't observed.
+
+Interpolation refers to predicting the value of our dependent variable for values of our independent variables within the range of values we have observed.
+
+Extrapolation refers to predicting the value of our dependent variable for values outside the range we have observed for our independent variables. 
+
+Let's consider an example, we will try predicting the expression of the IGKC gene from the expression of other components of the protein complex that forms the B-cell receptor. From existing knowledge we know that IGKC is a light chain and binds to one of the three possible heavy chains: IgA (IGHA1, IGHA2), IgG (IGHG1, IGHG2), IgE (IGHE) so let's use those for our independent variables.
+```{r}
+IGKC_expr <- expression["IGKC",]
+IgA_expr <- expression["IGHA1",]+expression["IGHA2",]
+IgG_expr <- expression["IGHG1",]+expression["IGHG2",]
+IgE_expr <- expression["IGHE",]
+```
+
+Try it yourself: create a linear regression model with IGKC as the dependent variable, and the IgA, IgG, and IgE as the independent variables.
+```{r}
+# Your Answer
+
+
+
+
+
+
+```
+
+
+
+```{r}
+# Our Answer
+reg <- lm(IGKC_expr~IgA_expr + IgG_expr + IgE_expr)
+summary(reg)
+```
+Here we can see that the IgG heavy chain is by far the best predictor of IGKC expression in our data. This is consistent with IgG and IGKC being the most frequent combination comprising secreted antibodies. 
+
+Now let's manually calculate the expression level of IGKC when IgA, IgG, and IgE all have expression values of 10.
+```{r}
+y = 1.37636 + 0.15490*10+0.76113*10+4.80121*10
+y
+```
+
+Another method is to use the `predict()` function which uses a given regression model to predict the "y" values for new independent variables, which are provided as a data.frame.
+
+```{r}
+predict(reg,newdata = data.frame(IgA_expr=10, IgG_expr=10, IgE_expr=10))
+```
+This extrapolation to an expression level of 10 for each heavy chain predict IGKC would be expressed at a level 58.55 were such a case to happen. 
+
+The `predict()` function is most useful when working with non-linear regression models or when including multiple interaction terms that make manual calculation of the "y" values difficult.
+
+::: Check your understanding
+Why was it stated above that this was extrapolation rather than interpolation?
+
+Identify a set of IgA, IgG, and IgE values that would be considered interpolation, and calculate the predicted IGKC expression from them.
+:::

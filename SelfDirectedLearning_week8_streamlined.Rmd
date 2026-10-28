@@ -1,0 +1,305 @@
+---
+title: "SelfDirectedLearning_week8"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this Self-directed learning, you will learn:
+- a review of how to use for-loops
+- how to use the `apply()` function as a simple alternative to a for-loop when working with tables of data.
+- how to calculate the correlation between two vectors.
+- how to perform linear regression in R.
+- how to perform logistic regression in R.
+
+To show a biological application of these skills, we will be examining whether B-cells or T-cells are more strongly associated with the extent of MS. 
+
+## Reading the data:
+
+We will continue with our MS data. For this self-study we are also going to use the pathology reports in addition to the normalized gene expression, and clinical data. We can read all of these files in using read.csv.
+
+```{r}
+expression <- read.csv("log_fpkms_genesymbol.csv", header=TRUE, stringsAsFactors = FALSE)
+clinical <- read.csv("MS_meta_data.csv", header=TRUE, check.names=FALSE, stringsAsFactors = FALSE)
+pathology <- read.csv("LesionLocation_Pathology_report_new.csv", header=TRUE, check.names=FALSE, stringsAsFactors = FALSE)
+```
+
+
+## Reviewing for-loops : calculating the extent of disease
+
+First let's inspect the pathology report table.
+```{r}
+dim(pathology) # we have already ensured this table matches the clinical & expression data for you.
+head(pathology)
+```
+If we inspect the columns of this table, we can see that we have a "sample" and "brain_weight_grams" column for each sample. Then we have several columns of different neural tissues and whether the pathologist observed lesions in that region ("Yes"), or not ("No") or if that tissue wasn't evaluated (NA). 
+
+We want to create a statistic to represent the extent of pathology in each patient from this data. Since we don't know if there was lesions in the tissues that weren't evaluated we are going to calculate for each patient the proportion of evaluated tissues with lesions:
+
+lesion_extent = (total regions with lesions) / (total regions evaluated)
+
+Let's start by calculating this for the first sample, then we'll make a for-loop to calculate this for all patients.
+
+```{r}
+region_columns <- 3:18 # the last 15 columns are the different regions
+regions_with_lesion <- pathology[1,region_columns] == "Yes"
+regions_evaluated <- !is.na(pathology[1, region_columns]) # regions that weren't evaluated are NAs in our data.
+
+# Recall from Dr. Dumeaux's section that we can use the "sum()" function to turn the TRUE/FALSE vectors above into counts. You could also use table().
+lesion_extent = sum(regions_with_lesion, na.rm=TRUE)/sum(regions_evaluated)
+print(lesion_extent)
+```
+::: Check your understanding
+How many regions had lesions, and how many regions were evaluated for this first sample? Which parts of the code above calculate these? 
+
+Why is "na.rm=TRUE" included in the code above? What happens if you don't include it?
+:::
+
+Now that we have calculated the lesion extent for one patient, we can create the for-loop to calculated it for all patients. To do this we'll just replace the row number (1) with the variable we will loop over (i). 
+
+Remember! We need to set up our vector of output to store the calculated values. 
+
+Try this yourself!
+
+```{r}
+# Your Answer
+output <- 
+
+for (){
+
+  
+  
+  
+    
+}
+```
+
+
+
+
+
+Here's our answer:
+
+```{r}
+region_columns <- 3:18 # we can leave this outside of the loop because it is always the same each time the loop runs.
+output <- vector(length=nrow(pathology))
+
+for(i in 1:nrow(pathology)){
+  regions_with_lesion <- pathology[i,region_columns] == "Yes"
+  regions_evaluated <- !is.na(pathology[i, region_columns]) # regions that weren't evaluated are NAs in our data.
+  
+  lesion_extent = sum(regions_with_lesion, na.rm=TRUE)/sum(regions_evaluated)
+  output[i] <- lesion_extent
+}
+output
+```
+Notice we have some "NaN" values in our output, this is because some of our samples are normal controls who weren't evaluated for lesions anywhere. Thus the denominator when we calculate lesion_extent (i.e. total regions evaluated) is 0 for those samples. 
+```{r}
+5/0 # gives NA
+```
+
+Let's replace those NaNs with 0s since we know they don't have MS. We'll also rename our output to be something more memorable.
+```{r}
+output[is.na(output)] <- 0
+all_patient_lesion_extent <- output
+```
+
+## Apply 
+Because R is based around vectors and tables, there are some special functions that run a function on each element of a vector, or on each row / column of a table without needing to write a full for-loop. These are "apply" functions, because they 'apply' a function to each segment of the data.
+
+There are three things we need to put into our apply function:
+- a matrix 
+- either a "1" for rows, or a "2" for columns
+- the function that we want to run on each row/column
+
+Let's try a simple example, first we create a little toy matrix to test these functions on.
+```{r}
+mat <- matrix(1:10, ncol=2)
+mat
+```
+
+Now let's try summing the rows or the columns using `apply()`
+```{r}
+apply(mat, 1, sum) # 1 = rows, so this sums the rows
+```
+```{r}
+apply(mat, 2, sum) # 2 = columns so this sums the columns
+```
+
+We can put any function we want into the `apply()`, we could even define our own function and put it into the apply but that's beyond the scope of this course.
+
+```{r}
+apply(mat, 1, median) # calculate median value of each row
+```
+
+```{r}
+apply(mat, 2, var) #calculate the variance of each column
+```
+
+:::Try it yourself
+Calculate the average of each row and each column of `mat` using apply().
+:::
+
+### Calculating T and B cell specific expression
+We're going to use the `apply()` function to calculate the total (`sum()`) expression of T cell and B cell specific genes to estimate the amount of T/B cells in the brain of the MS and Control samples.
+
+We have provided you with a set of T/B cell specific genes below.
+```{r}
+T_cell_genes <- c("CD3D", "CD3E", "TRAC", "TRBC2", "CD4", "CD8A", "CD8B") # These are components of the T-cell receptor and some other key coreceptors.
+B_cell_genes <- c("CD79A", "CD79B", "IGKC", "IGHA1", "IGHA2", "IGHM", "IGHG1", "IGLC2","IGLC1", "IGLC3", "IGHG2") # These are the core components of the B-cell receptor
+```
+To calculate the total expression of these genes in each sample, we will need to first subset the expression table to just these genes. Then use `apply()` to calculate the sum of each column in this subset table.
+```{r}
+expr_T_cell_genes <- expression[T_cell_genes,] # subset the genes
+total_T_cell_expr <- apply(expr_T_cell_genes, 2, sum) # calculate the sum for each column
+```
+Now we just do the same for the B cell genes
+```{r}
+expr_B_cell_genes <- expression[B_cell_genes,] # subset the genes
+total_B_cell_expr <- apply(expr_B_cell_genes, 2, sum) # calculate the sum for each column
+```
+
+## Calculating correlations in R
+A correlation measures how similar the trends in two different measurements are to each other. It is always between -1 and 1. A correlation of -1 means the two values have completely opposite trends : i.e. when A is high, B is low and vice versa. A correlation of 1 means the two values have completely consistent trends : i.e. when A is high, B is high. A correlation of 0 means there is no relationship between the two measurements.  
+
+Now that we have the lesion extent, and B & T cell scores we can determine which cell-type is more strongly associated with the disease pathology using correlation. First let's plot a scatter plot to see if we can predict what the correlation will be:
+```{r}
+plot(total_B_cell_expr, all_patient_lesion_extent, xlab="B cells", ylab="Lesion extent")
+```
+It looks like there is a positive correlation between them on the plot. Let's check by calculating the correlation with `cor()`
+```{r}
+cor(total_B_cell_expr, all_patient_lesion_extent)
+```
+We do find a reasonable positive correlation between them. However, the data was pretty noisy. We could check if this correlation is significant using `cor.test()`. How this test works is beyond the scope of this course, but it is a parametric test that assumes the data is normally distributed.
+```{r}
+cor.test(total_B_cell_expr,  all_patient_lesion_extent)
+```
+:::Check your understanding
+Is the correlation significant? 
+
+What do you get for T-cell expression? Are the B-cells or T-cells more strongly associated with pathology?
+:::
+
+## Linear Regression
+Above we used a correlation to assess the strength of the relationship, but we could also use linear regression. Linear regression estimates the best straight line relationship between two measurements (i.e. y = mx+b, or y = B0+B1x). In R we run linear regression using the `lm()` function.
+```{r}
+?lm()
+```
+Notice in the documentation it says we need to provide a "formula" for linear regression. We write formulas in R using a tilda "~" with the dependent or response (y) value on the left of the tilda, and the independent or predictor (x) value on the right:
+
+Here's a toy example to show how it works:
+```{r}
+x <- 1:100
+y <- 3*x+5
+lm(y~x)
+```
+:::Check your understanding
+What did R label B0 and B1 in this output?
+:::
+
+Ok, now let's do it for the lesion extent and our B/T cell scores:
+```{r}
+lm(all_patient_lesion_extent~total_B_cell_expr)
+```
+This shows us the estimated coefficients (B0, B1) for our linear regression. But if we use the `summary()` function we can get much more information:
+```{r}
+reg <- lm(all_patient_lesion_extent~total_B_cell_expr)
+summary(reg)
+```
+Here we can see a summary of the residuals to check if they are balanced around 0 (which they are). As well as the estimated values of our coefficients as well as the Standard Error (this was covered your 2nd year stats course!) of each coefficient, and the p-value - which is found in the "Pr(>|t|)" column. The "t value" column is just the statistic used to calculate the p-value so we can ignore it for now.
+
+At the bottom of this output you can find the "Multiple R-squared" and the "Adjusted R-squared". As will be shown in lecture, the R-squared value of linear regression is equal to the square of the correlation. Let's confirm that's true here:
+```{r}
+r <- cor(all_patient_lesion_extent,total_B_cell_expr)
+r^2
+```
+This matches the "Multiple R-squared" value as expected. The "Adjusted R-squared" is a slight variation on R-squared which takes into account the number of independent variables in our model. We will talk more about that next week when we consider how to do regression with multiple independent variables.
+
+We can add this regression line to our scatter plot using `abline()`
+```{r}
+plot(total_B_cell_expr, all_patient_lesion_extent, xlab="B cells", ylab="Lesion extent")
+abline(reg)
+```
+:::Check your understanding
+Is the slope between B-cells and lesion extent significant?
+
+Perform linear regression with T-cell expression as the independent variable, and lesion extent as the dependent variable. Which cell-type is most strongly associated with lesion extent based on linear regression?
+:::
+
+::: Test yourself
+Check what happens when you flip the which values we used for X and Y in the linear regression and correlation. Do you get the same results - i.e. is cor(X,Y) the same as cor(Y,X), is lm(Y~X) the same as lm(X~Y)?
+:::
+
+## Logistic Regression
+The last topic for this week is Logistic Regression. The details of how logistic regression works and why we use certain statistics for it will be covered in Wednesday's lecture. For now all we need to know is that logistic regression is used when your dependent variable (y) is binary - e.g. has MS vs doesn't have MS, or does bind vs doesn't bind, or is a T cell vs not a T cell.
+
+In R we use the `glm()` function for logistic regression.
+```{r}
+?glm()
+```
+Notice that this help file says this function is for "generalized linear models" not logistic regression. That's because this function can do many different types of regression models for different error distributions (this will be explained more in lecture). We will need to specify the `family=` argument to tell the `glm()` function which type of regression we want to do.
+
+For logistic regression, we need to set `family=binomial`. Here's a simple example:
+```{r}
+is.Tcell <- c(1,1,1,1,1,1,0,0,0,0,0,0,0)
+CD4_expr <- c(4.5,3.7,2.1,5.6,1.0,1.7,1.8,2.2,0.3,0.1,0.5,0.2,0)
+```
+First, check what the data looks like:
+```{r}
+plot(CD4_expr, is.Tcell)
+```
+We can see CD4 expression looks like it is a good predictor of whether a cell is a T-cell or not in this plot. 
+
+Now lets run the regression model. Similar to linear regression, we provide the formula. But now we also need to specify the family we want to use.
+```{r}
+glm(is.Tcell~CD4_expr, family="binomial")
+```
+Again running just the regression itself provides limited information, so we should use `summary()` like before.
+```{r}
+reg <- glm(is.Tcell~CD4_expr, family="binomial")
+summary(reg)
+```
+This looks a lot like the output from linear regression. We have the coefficient table with the estimated value of each coefficient, the standard error and the p-value (Pr(>|z|)). Notice that now we have a "z" value and the p-value column references this z instead of the t we had for linear regression. This is showing that we used a different type of regression - logistic regression in this case - which requires different statistics to calculate significance.
+
+In addition, we don't have any R-squared values, instead we have "Null deviance" and "Residual deviance". Null deviance is the total variance in our data (SStot from lecture). Residual deviance is the remaining variance after predicting the outcome with our model (SSres from lecture). If our model is a good fit, the residual deviance should be much lower than the Null deviance.
+
+The AIC is a score that quantifies how good a fit our model is to the data but it's calculation is based on information theory which is beyond the scope of this course.
+
+:::Check your understanding
+Was CD4 expression a significant predictor in this simplified example?
+:::
+
+### Logistic regression on our data
+Now let's run a logistic regression to see whether T cells or B cells are better predictors of whether a patient had MS.
+
+```{r}
+is.MS <- clinical$diagnosis %in% c("PPMS", "RRMS", "SPMS") # this is from last week's self-study work
+reg <- glm(is.MS~total_B_cell_expr, family="binomial")
+summary(reg)
+```
+Now for T cells:
+```{r}
+reg <- glm(is.MS~total_T_cell_expr, family="binomial")
+summary(reg)
+```
+Here we can see that the T cell expression has a higher estimated coefficient than the B cell expression. This means for +1 expression of a T-cell gene the probability of having MS increases more than for a +1 expression of a B-cell gene. But that B cell expression is more significantly associated with MS than T cell expression. 
+
+One possible explanation (hypothesis) for these result is that we added together more genes for B cells than for T cells thus a +1 change in a B cell gene has less overall effect than a +1 change in a T cell gene. Let's test this hypothesis:
+
+```{r}
+length(B_cell_genes)
+length(T_cell_genes)
+```
+If we wanted to compare the coefficient values between B cells and T cells we should normalized our B cell and T cell expression scores so that both have the same variance, this will ensure a +1 change means the same for both of them.
+
+We can do that normalization using the `scale()` function:
+```{r}
+scaled_Bcell_expr <- scale(total_B_cell_expr)
+scaled_Tcell_expr <- scale(total_T_cell_expr)
+```
+
+::: Test yourself
+Run the logistic regression for does/doesn't have MS using the scaled B/T cell expression as the independent variables. Which cell-type has a larger coefficient now?
+:::
